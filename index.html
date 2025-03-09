@@ -1,9 +1,45 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
   <head>
+    <script type="text/javascript" async="" charset="utf-8" src="https://www.gstatic.com/recaptcha/releases/EGO3I7Q26cZ-jBw3BEtzIx7-/recaptcha__ko.js" crossorigin="anonymous" integrity="sha384-gRubZHMYQ6GFSryLFGQlRhJu7Urr8m3flDTVSoEilqxbbNHLG9/O9OUkZt8FW+U5"></script>
+    <script src="https://www.google.com/recaptcha/api.js?render=6LevtUopAAAAAJyMp3fUoarCKICFchrr4wEgZSIr"></script>
     <meta charset="utf-8">
     <title>When go home today</title>
     <link rel = "stylesheet" href="winter.css">
+    <script>
+      
+
+    async function CouponSubmit() {
+        let url = "https://coupon.a.prod.service.trickcal.io/public/coupon";
+    
+        let recaptchaOn = '1';
+        let recaptcha_token = '';
+        if (recaptchaOn === '1') {
+                recaptcha_token = await grecaptcha.execute('6LevtUopAAAAAJyMp3fUoarCKICFchrr4wEgZSIr', { action: 'coupon' });
+                console.log('On');
+        }
+    
+        let formData = new FormData();
+        formData.append("UserId", $("#UserId").val());
+        formData.append("CouponCode", $("#CouponCode").val());
+        formData.append("Recaptcha", recaptcha_token);
+    
+        $.ajax({
+            type: 'POST',
+            url: url,
+            data: formData,
+            processData: false,
+            contentType: false,
+            error: function (response){
+                console.log(response);
+                }
+        }).done(function (response) {
+            document.getElementById("result-message").innerText = response.replace("\\n", "\r\n");
+            modal.classList.remove('hidden');
+        });
+    }
+
+    </script>
   </head>
   <body>
     <div class="wrap">
@@ -11,6 +47,12 @@
     </div>
 
 <div class="myblock">
+
+  <form enctype="multipart/form-data" method="POST" id="couponForm">
+                            <input id="CouponCode" name="CouponCode" type="text" placeholder="교환 코드를 입력해 주세요" required="" class="block w-3/4 mx-auto text-center text-[#333333] bg-[#D9F1A4] rounded-[16px] p-1.5
+    placeholder:text-[#859269] focus:ring-2 focus:ring-inset focus:ring-indigo-600 text-[22px] leading-[58px]">
+                <input name="__RequestVerificationToken" type="hidden" value="CfDJ8JdkTIG6n_dMmubRqw-7KEf5OFJuBbRtrD5Ku6Ng7jk3o2mX6sIDwJkxaMB0uz3yj7qxjXtshyJCUYBSBxJ9JcoGVMCvd6kWLyF4QQ3jNAE6i-t2RIvn6nFOXqnb-qo1G8EngceLwsH9xFypQVDuCvw">
+            </form>
   <quote>
     <p>인생은 참치누룽지죽 혹은 삼계죽으로 나뉜다.</p>
   </quote>
